@@ -7,6 +7,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ImportProductData {
 
     private final ProductRepository productRepository;
@@ -61,9 +63,10 @@ public class ImportProductData {
             }
 
             productRepository.saveAll(products);
+            log.info("Imported {} products", products.size());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to import product data", e);
         }
     }
 }

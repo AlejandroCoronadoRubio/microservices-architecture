@@ -13,18 +13,8 @@ import java.util.List;
 public interface InventoryClient {
 
     @GetMapping("/inventory/sku/{sku}")
-    @CircuitBreaker(name = "getInventoryBySku", fallbackMethod = "fallbackInventoryBySku")
     ResponseEntity<List<Product>> getInventoryBySku(@PathVariable(name = "sku") String sku);
 
     @GetMapping("/inventory/uniqId/{uniqId}")
-    @CircuitBreaker(name = "getInventoryByUniqId", fallbackMethod = "fallbackInventoryByUniqId")
     ResponseEntity<List<Product>> getInventoryByUniqId(@PathVariable(name = "uniqId") String uniqId);
-
-    default List<Product> fallbackInventoryBySku(String sku, Throwable ex) {
-        return List.of(new Product());
-    }
-
-    default List<Product> fallbackInventoryByUniqId(String uniqId, Throwable ex) {
-        return List.of(new Product());
-    }
 }

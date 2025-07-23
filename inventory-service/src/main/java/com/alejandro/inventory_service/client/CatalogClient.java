@@ -13,18 +13,8 @@ import java.util.List;
 public interface CatalogClient {
 
     @GetMapping("/catalog/sku/{sku}")
-    @CircuitBreaker(name = "getProductsBySku", fallbackMethod = "fallbackCatalogBySku")
     ResponseEntity<List<Product>> getProductsBySku(@PathVariable(name = "sku") String sku);
 
     @GetMapping("/catalog/uniqId/{uniqId}")
-    @CircuitBreaker(name = "getProductsByUniqId", fallbackMethod = "fallbackCatalogByUniqId")
     ResponseEntity<List<Product>> getProductsByUniqId(@PathVariable(name = "uniqId") String uniqId);
-
-    default List<Product> fallbackCatalogBySku(String sku, Throwable ex) {
-        return List.of(new Product());
-    }
-
-    default List<Product> fallbackCatalogByUniqId(String uniqId, Throwable ex) {
-        return List.of(new Product());
-    }
 }
